@@ -1,0 +1,33 @@
+DROP TABLE IF EXISTS media_types;
+CREATE TABLE media_types (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(255),
+	created_at DATETIME DEFAULT NOW(),
+	confirmed_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS media;
+CREATE TABLE media (
+	id SERIAL PRIMARY KEY,
+	media_type_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    body text,
+	filename VARCHAR(255),
+	size INT,
+	metadata JSON,
+	created_at DATETIME DEFAULT NOW(),
+	confirmed_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	
+	INDEX (user_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (media_type_id) REFERENCES media_types(id)
+);
+
+DROP TABLE IF EXISTS likes;
+CREATE TABLE likes(
+	id SERIAL PRIMARY KEY,
+	user_id BIGINT UNSIGNED NOT NULL,
+	media_id BIGINT UNSIGNED NOT NULL,
+	created_at DATETIME DEFAULT NOW()
+);
+
