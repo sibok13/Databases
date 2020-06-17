@@ -1,0 +1,13 @@
+/*
+В базе данных shop и sample присутствуют одни и те же таблицы, учебной базы данных. Переместите запись id = 1 из таблицы shop.users в таблицу sample.users. Используйте транзакции.
+*/
+
+START TRANSACTION;
+
+select name, birthday_at from sample.users where id=1;
+
+insert into shop.users (name, birthday_at) select name, birthday_at from sample.users where id=1;
+
+delete from sample.users where id=1;
+
+COMMIT;
